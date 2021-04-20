@@ -77,3 +77,14 @@ func githubLoginHandler(w http.ResponseWriter, r *http.Request) {
 
 	http.Redirect(w, r, redirectURL, 301)
 }
+
+func githubCallbackHandler(w http.ResponseWriter, r *http.Request) {
+	code := r.URL.Query().Get("code")
+
+	githubAccessToken := getGithubAccessToken(code)
+
+	githubData := getGithubData(githubAccessToken)
+
+	loggedinHandler(w, r, githubData)
+}
+
