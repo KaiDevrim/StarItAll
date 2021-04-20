@@ -48,3 +48,25 @@ func main() {
 func rootHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, `<a href="/login/github/">LOGIN</a>`)
 }
+
+func loggedinHandler(w http.ResponseWriter, r *http.Request, githubData string) {
+	if githubData == "" {
+		// Unauthorized users get an unauthorized message
+		fmt.Fprintf(w, "UNAUTHORIZED!")
+		return
+	}
+
+	w.Header().Set("Content-type", "application/json")
+
+	// Prettifying the json
+	var prettyJSON bytes.Buffer
+	// json.indent is a library utility function to prettify JSON indentation
+	parserr := json.Indent(&prettyJSON, []byte(githubData), "", "\t")
+	if parserr != nil {
+		log.Panic("JSON parse error")
+	}
+
+	// Return the prettified JSON as a string
+	fmt.Fprintf(w, string(prettyJSON.Bytes()))
+}
+
