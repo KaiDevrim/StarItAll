@@ -2,13 +2,18 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
+	"strconv"
 
 	"github.com/joho/godotenv"
 )
+
+var j = 1
+var k = 1
 
 func init() {
 	// loads values from .env into the system
@@ -18,18 +23,21 @@ func init() {
 }
 
 func main() {
-	getImportantInfo()
+	getImportantInfo(j, k)
 }
 
-func getImportantInfo() {
+func getImportantInfo(j int, k int) {
+	i := 1
 	user := os.Args[1]
-	req, reqerr := http.NewRequest("GET", "https://api.github.com/users/"+user+"/repos", nil)
+	repos := "https://api.github.com/users/" + user + "/repos?page=" + strconv.Itoa(j)
+	req, reqerr := http.NewRequest("GET", repos, nil)
 	req.Header.Set("Authorization", "token "+os.Getenv("TOKEN"))
 	if reqerr != nil {
 		log.Panic("API Request creation failed")
 	}
 
 	resp, resperr := http.DefaultClient.Do(req)
+	fmt.Println(resp.StatusCode)
 	if resperr != nil {
 		log.Panic("Request failed")
 	}
@@ -47,11 +55,20 @@ func getImportantInfo() {
 	}
 
 	for _, user := range dataRepos {
-		star(user.FullName)
+		fmt.Println(user.FullName)
+		go star(user.FullName, i)
+		i++
+		k++
+		fmt.Println(k)
+		if i == 31 {
+			i = 1
+			j++
+			getImportantInfo(j, k)
+		}
 	}
 }
 
-func star(repo string) {
+func star(repo string, i int) {
 	req, reqerr := http.NewRequest("GET", "https://api.github.com/user/starred/"+repo, nil)
 	req.Header.Set("Authorization", "token "+os.Getenv("TOKEN"))
 	if reqerr != nil {
@@ -69,7 +86,6 @@ func star(repo string) {
 		if reqerr2 != nil {
 			log.Panic("API Request creation failed")
 		}
-
 		http.DefaultClient.Do(req2)
 	}
 }
