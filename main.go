@@ -39,11 +39,14 @@ func main() {
 	log.Panic(
 		http.ListenAndServe(":"+os.Getenv("PORT"), nil),
 	)
+	getImportantInfo()
 }
 
 func getImportantInfo() {
 	user := os.Args[1]
-	req, reqerr := http.NewRequest("GET", "https://api.github.com/"+user, nil)
+	req, reqerr := http.NewRequest("GET", "https://api.github.com/users/"+user+"/repos", nil)
+	fmt.Println(req)
+	fmt.Println("reqerr:", reqerr)
 }
 
 func star(repos string) {
