@@ -64,7 +64,7 @@ func getImportantInfo(j int, k int) {
 		if i == 31 {
 			i = 1
 			j++
-			go getImportantInfo(j, k)
+			getImportantInfo(j, k)
 		}
 	}
 }
