@@ -30,6 +30,7 @@ func getImportantInfo(j int, k int) {
 	i := 1
 	user := os.Args[1]
 	repos := "https://api.github.com/users/" + user + "/repos?page=" + strconv.Itoa(j)
+	fmt.Println(repos)
 	req, reqerr := http.NewRequest("GET", repos, nil)
 	req.Header.Set("Authorization", "token "+os.Getenv("TOKEN"))
 	if reqerr != nil {
@@ -56,14 +57,14 @@ func getImportantInfo(j int, k int) {
 
 	for _, user := range dataRepos {
 		fmt.Println(user.FullName)
-		go star(user.FullName, i)
+		star(user.FullName, i)
 		i++
 		k++
 		fmt.Println(k)
 		if i == 31 {
 			i = 1
 			j++
-			getImportantInfo(j, k)
+			go getImportantInfo(j, k)
 		}
 	}
 }
@@ -82,11 +83,13 @@ func star(repo string, i int) {
 
 	if resp.StatusCode == 404 {
 		req2, reqerr2 := http.NewRequest("PUT", "https://api.github.com/user/starred/"+repo, nil)
+		fmt.Println("https://api.github.com/user/starred/" + repo)
 		req2.Header.Set("Authorization", "token "+os.Getenv("TOKEN"))
 		if reqerr2 != nil {
 			log.Panic("API Request creation failed")
 		}
 		http.DefaultClient.Do(req2)
+		fmt.Println("star!")
 	}
 }
 
