@@ -29,6 +29,7 @@ func main() {
 func getImportantInfo(j int, k int) {
 	i := 1
 	user := os.Args[1]
+	following := "https://api.github.com/users/" + user + "/following"
 	repos := "https://api.github.com/users/" + user + "/repos?page=" + strconv.Itoa(j)
 	fmt.Println(repos)
 	req, reqerr := http.NewRequest("GET", repos, nil)
@@ -50,11 +51,22 @@ func getImportantInfo(j int, k int) {
 
 	defer resp.Body.Close()
 
+	req2, reqerr2 := http.NewRequest("GET", following, nil)
+	req2.Header.Set("Authorization", "token "+os.Getenv("TOKEN"))
+	if reqerr2 != nil {
+		log.Panic("API Request creation failed")
+	}
+
+	resp2, resperr2 := http.DefaultClient.Do(req2)
+	if resperr2 != nil {
+		log.Panic("Request failed")
+	}
+
 	var dataRepos []UserRepos
+	var followingUsers []Owner
 	if err := json.Unmarshal([]byte(string(respbody)), &dataRepos); err != nil {
 		log.Fatal(err)
 	}
-
 	for _, user := range dataRepos {
 		fmt.Println(user.FullName)
 		star(user.FullName, i)
@@ -197,3 +209,32 @@ type Owner struct {
 	Type              string `json:"type"`
 	SiteAdmin         bool   `json:"site_admin"`
 }
+
+type Following []FollowingElement
+
+type FollowingElement struct {
+	Login             string `json:"login"`
+	ID                int64  `json:"id"`
+	NodeID            string `json:"node_id"`
+	AvatarURL         string `json:"avatar_url"`
+	GravatarID        string `json:"gravatar_id"`
+	URL               string `json:"url"`
+	HTMLURL           string `json:"html_url"`
+	FollowersURL      string `json:"followers_url"`
+	FollowingURL      string `json:"following_url"`
+	GistsURL          string `json:"gists_url"`
+	StarredURL        string `json:"starred_url"`
+	SubscriptionsURL  string `json:"subscriptions_url"`
+	OrganizationsURL  string `json:"organizations_url"`
+	ReposURL          string `json:"repos_url"`
+	EventsURL         string `json:"events_url"`
+	ReceivedEventsURL string `json:"received_events_url"`
+	Type              Type   `json:"type"`
+	SiteAdmin         bool   `json:"site_admin"`
+}
+
+type Type string
+
+const (
+	User Type = "User"
+)
