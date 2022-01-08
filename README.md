@@ -48,7 +48,7 @@ Then
 ## Contributing
 
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
-I am not going to update the project anymore, if you need to make a contribution, please open a pr and dm me on Discord. `Devrim#9999`
+I am not going to update the project anymore, if you need to make a contribution, please open a pr or dm me on Discord. `Kai#5748`
 
 ## License
 
