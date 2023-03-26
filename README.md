@@ -5,7 +5,11 @@ Star every repo from any github account (orgs and user accounts).
 
 ## Installation
 
-Make sure to have [Go installed](https://golang.org/doc/install).
+Make sure to have [Go installed](https://golang.org/doc/install) and clone the repository.
+
+```bash
+git clone https://github.com/KaiDevrim/StarItAll.git
+```
 
 Get a GitHub oAuth token by following the steps [here](https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token).
 Make sure to give it at least the permission to Star repos. ![]()
