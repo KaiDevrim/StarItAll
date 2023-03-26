@@ -31,30 +31,22 @@ to install all the dependencies.
 
 ## Usage
 
+Build the project then run it.
+
 ```bash
-go run main.go kaidevrim
+go build
+```
+
+```bash
+./StarItAll kaidevrim
 ```
 
 Replace the last word with any GitHub User or Organization.
 
-You could alternatively build the project then run it.
-
-```go
-go build
-```
-
-in the current directory
-
-Then,
-
-```bash
-./StarItAll kaidevrim #replace the last word with any user/org you want to star
-```
-
 ## Contributing
 
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
-I am not going to update the project anymore, if you need to make a contribution, please open a pr or dm me on Discord. `Kai#5748`
+I am not going to update the project anymore, if you need to make a contribution, please open a pr or dm me on Discord. `Kai#0335`
 
 ## License
 
