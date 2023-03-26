@@ -1,9 +1,14 @@
-![Banner]()
+<p align="center">
+  <img src="./images/banner.png" alt="banner"/>
+</p>
+
 # StarItAll
 
 Star every repo from any github account (orgs and user accounts).
 
 ## Installation
+
+![installation gif](./images/tty.gif)
 
 Make sure to have [Go installed](https://golang.org/doc/install) and clone the repository.
 
