@@ -1,3 +1,4 @@
+![Banner]()
 # StarItAll
 
 Star every repo from any github account (orgs and user accounts).
